@@ -1,0 +1,2103 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบสำรวจความต้องการใช้ AI - BioSierra Laboratory</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2E7D32;
+            --dark-color: #1B5E20;
+            --dark-gray: #2D2D2D;
+            --medium-gray: #5A5A5A;
+            --light-gray: #E8E8E8;
+            --white: #FFFFFF;
+            --bg-gray: #F5F5F5;
+            --success-green: #28a745;
+            --accent-light: #E8F5E9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            background: var(--bg-gray);
+            color: var(--dark-gray);
+            line-height: 1.4;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        /* Compact Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-color) 100%);
+            color: var(--white);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .header .company-name {
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-top: 5px;
+        }
+
+        /* Survey Container */
+        .survey-container {
+            display: block;
+        }
+
+        /* Section - Compact */
+        .section {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .section-letter {
+            width: 32px;
+            height: 32px;
+            background: var(--primary-color);
+            color: var(--white);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+
+        .section-subtitle {
+            font-size: 0.75rem;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        /* Question - Compact */
+        .question {
+            margin-bottom: 15px;
+        }
+
+        .question:last-child {
+            margin-bottom: 0;
+        }
+
+        .question-label {
+            font-weight: 500;
+            color: var(--dark-gray);
+            margin-bottom: 8px;
+            display: block;
+            font-size: 0.9rem;
+        }
+
+        .question-sublabel {
+            font-size: 0.75rem;
+            color: var(--medium-gray);
+            margin-bottom: 10px;
+        }
+
+        /* Input Styles - Compact */
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        textarea {
+            min-height: 70px;
+            resize: vertical;
+        }
+
+        /* Dotted input */
+        .dotted-input {
+            border: none;
+            border-bottom: 2px dotted var(--light-gray);
+            border-radius: 0;
+            padding: 8px 5px;
+            background: transparent;
+        }
+
+        .dotted-input::placeholder {
+            color: #ccc;
+            font-style: italic;
+        }
+
+        .dotted-input:focus {
+            border-bottom-color: var(--primary-color);
+            box-shadow: none;
+        }
+
+        /* Compact Radio/Checkbox */
+        .option-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            background: var(--bg-gray);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .option:hover {
+            background: var(--light-gray);
+        }
+
+        .option.selected {
+            background: var(--accent-light);
+            border-color: var(--primary-color);
+        }
+
+        .option .checkmark {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--medium-gray);
+            border-radius: 50%;
+            margin-right: 10px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .option.checkbox .checkmark {
+            border-radius: 4px;
+        }
+
+        .option.selected .checkmark {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .option.selected .checkmark::after {
+            content: "✓";
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .option-title {
+            font-size: 0.85rem;
+            color: var(--dark-gray);
+        }
+
+        /* Other input in checkbox */
+        .option.has-input {
+            flex-wrap: wrap;
+        }
+
+        .option.has-input .other-input {
+            width: 100%;
+            margin-top: 8px;
+            padding: 8px;
+            border: 1px dashed var(--light-gray);
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            display: none;
+        }
+
+        .option.has-input.selected .other-input {
+            display: block;
+        }
+
+        /* Level Cards - Compact */
+        .level-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .level-option {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            background: var(--bg-gray);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .level-option:hover {
+            background: var(--light-gray);
+        }
+
+        .level-option.selected {
+            background: var(--accent-light);
+            border-color: var(--primary-color);
+        }
+
+        .level-badge {
+            width: 36px;
+            height: 36px;
+            background: var(--medium-gray);
+            color: var(--white);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 10px;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .level-option.selected .level-badge {
+            background: var(--primary-color);
+        }
+
+        .level-option .option-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .level-option .option-title {
+            font-size: 0.8rem;
+            line-height: 1.3;
+        }
+
+        .level-option .option-desc {
+            font-size: 0.7rem;
+            color: var(--medium-gray);
+        }
+
+        /* Tool Grid - Compact */
+        .tool-section {
+            margin-bottom: 12px;
+        }
+
+        .tool-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .category-label {
+            font-size: 0.75rem;
+            color: var(--medium-gray);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .tool-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tool-option {
+            padding: 8px 12px;
+            background: var(--bg-gray);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+            font-size: 0.8rem;
+        }
+
+        .tool-option:hover {
+            background: var(--light-gray);
+        }
+
+        .tool-option.selected {
+            background: var(--accent-light);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .tool-option.other-tool {
+            border-style: dashed;
+            border-color: var(--light-gray);
+        }
+
+        .tool-option.other-tool.selected {
+            border-style: solid;
+        }
+
+        .other-tool-input {
+            display: none;
+            margin-top: 8px;
+            padding: 8px 12px;
+            border: 1px dashed var(--light-gray);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            width: 100%;
+        }
+
+        .other-tool-input.show {
+            display: block;
+        }
+
+        /* Frequency Options - Compact */
+        .freq-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .freq-option {
+            padding: 8px 14px;
+            background: var(--bg-gray);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+            font-size: 0.8rem;
+        }
+
+        .freq-option:hover {
+            background: var(--light-gray);
+        }
+
+        .freq-option.selected {
+            background: var(--accent-light);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        /* Rating Scale - Compact */
+        .rating-grid {
+            display: grid;
+            gap: 6px;
+        }
+
+        .rating-row {
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            background: var(--bg-gray);
+            border-radius: 8px;
+            gap: 10px;
+        }
+
+        .rating-label {
+            flex: 1;
+            font-size: 0.8rem;
+            min-width: 0;
+        }
+
+        .rating-buttons {
+            display: flex;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+
+        .rating-btn {
+            width: 32px;
+            height: 32px;
+            border: 2px solid var(--light-gray);
+            border-radius: 6px;
+            background: var(--white);
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .rating-btn:hover {
+            border-color: var(--primary-color);
+        }
+
+        .rating-btn.selected {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        /* Dynamic Input - Compact */
+        .dynamic-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .dynamic-input-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dynamic-input-row input {
+            flex: 1;
+        }
+
+        .add-btn, .remove-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .add-btn {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .add-btn:hover {
+            background: var(--dark-color);
+        }
+
+        .remove-btn {
+            background: var(--light-gray);
+            color: var(--medium-gray);
+        }
+
+        .remove-btn:hover {
+            background: #e53935;
+            color: var(--white);
+        }
+
+        /* Checkbox Grid - Compact */
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px;
+        }
+
+        .checkbox-grid .option {
+            padding: 8px 10px;
+        }
+
+        .checkbox-grid .option-title {
+            font-size: 0.8rem;
+            line-height: 1.3;
+        }
+
+        /* Work Category Section */
+        .work-category {
+            margin-bottom: 15px;
+        }
+
+        .work-category:last-child {
+            margin-bottom: 0;
+        }
+
+        .work-category-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--dark-gray);
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+            border-bottom: 2px solid var(--primary-color);
+            display: inline-block;
+        }
+
+        /* Progress */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--light-gray);
+            z-index: 100;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        /* Navigation - Compact */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .nav-btn.prev {
+            background: var(--light-gray);
+            color: var(--dark-gray);
+        }
+
+        .nav-btn.prev:hover {
+            background: var(--medium-gray);
+            color: var(--white);
+        }
+
+        .nav-btn.next {
+            background: var(--primary-color);
+            color: var(--white);
+            flex: 1;
+            max-width: 200px;
+        }
+
+        .nav-btn.next:hover {
+            background: var(--dark-color);
+        }
+
+        /* Step Indicator */
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 15px;
+        }
+
+        .step-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--light-gray);
+            transition: all 0.3s ease;
+        }
+
+        .step-dot.active {
+            background: var(--primary-color);
+            transform: scale(1.2);
+        }
+
+        .step-dot.completed {
+            background: var(--primary-color);
+        }
+
+        /* Success Page */
+        .success-page {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-color) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2.5rem;
+            color: var(--white);
+        }
+
+        .success-page h2 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--dark-gray);
+        }
+
+        .success-page p {
+            color: var(--medium-gray);
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 15px;
+            color: var(--medium-gray);
+            font-size: 0.75rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .level-options {
+                grid-template-columns: 1fr;
+            }
+
+            .checkbox-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .rating-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .rating-buttons {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>แบบสำรวจความต้องการใช้ AI ในการทำงาน</h1>
+            <div class="company-name">บริษัท ไบโอเซียร์รา แล็บบอราทอรี จำกัด</div>
+            <p>BioSierra Laboratory Co., Ltd. • ⏱️ 10-15 นาที</p>
+        </div>
+
+        <!-- Survey Container -->
+        <div class="survey-container" id="surveyContainer">
+            <div class="step-indicator" id="stepIndicator"></div>
+
+            <!-- Step 1: General Info -->
+            <div class="step" data-step="1">
+                <div class="section">
+                    <div class="section-header">
+                        <div class="section-letter">A</div>
+                        <div class="section-title">ข้อมูลทั่วไป</div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">A1. ชื่อ-นามสกุล</label>
+                        <input type="text" id="name" placeholder="กรอกชื่อ-นามสกุล">
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">A2. ตำแหน่ง</label>
+                        <input type="text" id="position" placeholder="กรอกตำแหน่งงาน">
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">A3. แผนก/ทีม (เลือกได้ 1 ข้อ)</label>
+                        <div class="option-group" id="departmentGroup">
+                            <label class="option" onclick="selectOption(this, 'department')">
+                                <input type="radio" name="department" value="rnd" style="display:none;">
+                                <span class="checkmark"></span>
+                                <span class="option-title">🧪 วิจัยและพัฒนาสูตร (R&D)</span>
+                            </label>
+                            <label class="option" onclick="selectOption(this, 'department')">
+                                <input type="radio" name="department" value="production" style="display:none;">
+                                <span class="checkmark"></span>
+                                <span class="option-title">🏭 ผลิต (Production)</span>
+                            </label>
+                            <label class="option" onclick="selectOption(this, 'department')">
+                                <input type="radio" name="department" value="marketing" style="display:none;">
+                                <span class="checkmark"></span>
+                                <span class="option-title">📢 การตลาด/ขาย (Marketing/Sales)</span>
+                            </label>
+                            <label class="option" onclick="selectOption(this, 'department')">
+                                <input type="radio" name="department" value="procurement" style="display:none;">
+                                <span class="checkmark"></span>
+                                <span class="option-title">🛒 จัดซื้อ (Procurement)</span>
+                            </label>
+                            <label class="option" onclick="selectOption(this, 'department')">
+                                <input type="radio" name="department" value="warehouse" style="display:none;">
+                                <span class="checkmark"></span>
+                                <span class="option-title">📦 คลังสินค้า (Warehouse)</span>
+                            </label>
+                            <label class="option" onclick="selectOption(this, 'department')">
+                                <input type="radio" name="department" value="accounting" style="display:none;">
+                                <span class="checkmark"></span>
+                                <span class="option-title">💰 บัญชี/การเงิน (Accounting/Finance)</span>
+                            </label>
+                            <label class="option" onclick="selectOption(this, 'department')">
+                                <input type="radio" name="department" value="hr" style="display:none;">
+                                <span class="checkmark"></span>
+                                <span class="option-title">👥 ทรัพยากรบุคคล (HR)</span>
+                            </label>
+                            <label class="option" onclick="selectOption(this, 'department')">
+                                <input type="radio" name="department" value="qcqa" style="display:none;">
+                                <span class="checkmark"></span>
+                                <span class="option-title">✅ ควบคุมคุณภาพ (QC/QA)</span>
+                            </label>
+                            <label class="option" onclick="selectOption(this, 'department')">
+                                <input type="radio" name="department" value="admin" style="display:none;">
+                                <span class="checkmark"></span>
+                                <span class="option-title">📋 ธุรการ/สำนักงาน (Admin)</span>
+                            </label>
+                            <label class="option" onclick="selectOption(this, 'department')">
+                                <input type="radio" name="department" value="management" style="display:none;">
+                                <span class="checkmark"></span>
+                                <span class="option-title">👔 ผู้บริหาร/Management</span>
+                            </label>
+                            <label class="option" onclick="selectOption(this, 'department')">
+                                <input type="radio" name="department" value="it" style="display:none;">
+                                <span class="checkmark"></span>
+                                <span class="option-title">💻 IT/สารสนเทศ</span>
+                            </label>
+                            <label class="option" onclick="selectOption(this, 'department')">
+                                <input type="radio" name="department" value="packaging" style="display:none;">
+                                <span class="checkmark"></span>
+                                <span class="option-title">🎨 งานออกแบบบรรจุภัณฑ์ (Packaging Design)</span>
+                            </label>
+                            <label class="option" onclick="selectOption(this, 'department')">
+                                <input type="radio" name="department" value="fda" style="display:none;">
+                                <span class="checkmark"></span>
+                                <span class="option-title">📑 งานจดทะเบียน FDA</span>
+                            </label>
+                            <label class="option" onclick="selectOption(this, 'department')">
+                                <input type="radio" name="department" value="oem" style="display:none;">
+                                <span class="checkmark"></span>
+                                <span class="option-title">🤝 ฝ่ายลูกค้าสัมพันธ์/OEM Service</span>
+                            </label>
+                            <label class="option has-input" onclick="selectOption(this, 'department')" id="deptOtherOption">
+                                <input type="radio" name="department" value="other" style="display:none;">
+                                <span class="checkmark"></span>
+                                <span class="option-title">อื่นๆ</span>
+                                <input type="text" class="other-input" id="deptOtherInput" placeholder="ระบุแผนก..." onclick="event.stopPropagation()">
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">A4. โครงการลูกค้า OEM ที่รับผิดชอบปัจจุบัน (ถ้ามี)</label>
+                        <input type="text" id="oemProject" placeholder="ระบุชื่อโครงการ (ถ้าไม่มีให้ข้ามไป)">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: AI Experience -->
+            <div class="step" data-step="2" style="display:none;">
+                <div class="section">
+                    <div class="section-header">
+                        <div class="section-letter">B</div>
+                        <div class="section-title">ประสบการณ์และความพร้อมด้าน AI</div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">B1. ระดับประสบการณ์การใช้ AI (เช่น ChatGPT, Gemini, Claude)</label>
+                        <div class="level-options">
+                            <div class="level-option" onclick="selectLevel(this, 0)">
+                                <div class="level-badge">L0</div>
+                                <div class="option-content">
+                                    <div class="option-title">ไม่เคยใช้เลย</div>
+                                </div>
+                            </div>
+                            <div class="level-option" onclick="selectLevel(this, 1)">
+                                <div class="level-badge">L1</div>
+                                <div class="option-content">
+                                    <div class="option-title">เคยลองใช้บ้าง 1-2 ครั้ง</div>
+                                </div>
+                            </div>
+                            <div class="level-option" onclick="selectLevel(this, 2)">
+                                <div class="level-badge">L2</div>
+                                <div class="option-content">
+                                    <div class="option-title">ใช้เป็นครั้งคราว ไม่ประจำ</div>
+                                </div>
+                            </div>
+                            <div class="level-option" onclick="selectLevel(this, 3)">
+                                <div class="level-badge">L3</div>
+                                <div class="option-content">
+                                    <div class="option-title">ใช้ประจำสัปดาห์ละ 1-2 ครั้ง</div>
+                                </div>
+                            </div>
+                            <div class="level-option" onclick="selectLevel(this, 4)">
+                                <div class="level-badge">L4</div>
+                                <div class="option-content">
+                                    <div class="option-title">ใช้เป็นประจำทุกวัน</div>
+                                </div>
+                            </div>
+                            <div class="level-option" onclick="selectLevel(this, 5)">
+                                <div class="level-badge">L5</div>
+                                <div class="option-content">
+                                    <div class="option-title">ใช้เป็นเครื่องมือหลักในการทำงาน</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">B2. เครื่องมือ AI ที่เคยใช้ (เลือกได้หลายข้อ)</label>
+                        <div class="tool-grid">
+                            <div class="tool-option" onclick="toggleTool(this)">ChatGPT (OpenAI)</div>
+                            <div class="tool-option" onclick="toggleTool(this)">Google Gemini / Bard</div>
+                            <div class="tool-option" onclick="toggleTool(this)">Claude (Anthropic)</div>
+                            <div class="tool-option" onclick="toggleTool(this)">Microsoft Copilot</div>
+                            <div class="tool-option" onclick="toggleTool(this)">LINE AI / OA</div>
+                            <div class="tool-option" onclick="toggleTool(this)">AI สร้างภาพ/คอนเทนต์</div>
+                            <div class="tool-option" onclick="toggleTool(this)">AI อ่านเอกสาร/OCR</div>
+                            <div class="tool-option" onclick="toggleTool(this)">ไม่เคยใช้เครื่องมือใดเลย</div>
+                            <div class="tool-option other-tool" onclick="toggleOtherTool(this, 'tools')">อื่นๆ...</div>
+                        </div>
+                        <input type="text" class="other-tool-input" id="tools-other" placeholder="ระบุเครื่องมือ AI อื่นๆ...">
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">B3. ความถี่ในการใช้ AI เพื่อช่วยงาน</label>
+                        <div class="freq-options">
+                            <div class="freq-option" onclick="selectFreq(this)">ไม่เคยใช้</div>
+                            <div class="freq-option" onclick="selectFreq(this)">นานๆ ครั้ง (เดือนละ 1-2 ครั้ง)</div>
+                            <div class="freq-option" onclick="selectFreq(this)">สัปดาห์ละครั้ง</div>
+                            <div class="freq-option" onclick="selectFreq(this)">หลายครั้งต่อสัปดาห์</div>
+                            <div class="freq-option" onclick="selectFreq(this)">ทุกวัน</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Daily Work -->
+            <div class="step" data-step="3" style="display:none;">
+                <div class="section">
+                    <div class="section-header">
+                        <div class="section-letter">C</div>
+                        <div class="section-title">ลักษณะงานประจำวัน</div>
+                        <span class="section-subtitle">เลือกได้หลายข้อ</span>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">C1. งานที่ทำเป็นประจำ</label>
+
+                        <!-- R&D Work -->
+                        <div class="work-category">
+                            <div class="work-category-title">🧪 งานวิจัยและพัฒนาสูตร (R&D)</div>
+                            <div class="checkbox-grid">
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ค้นคว้าสารสกัด/วัตถุดิบใหม่ๆ</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">พัฒนาสูตรอาหารเสริมตามความต้องการลูกค้า</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ตรวจสอบความเข้ากันได้ของสาร (Compatibility)</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">จัดเก็บและจัดการสูตรมากกว่า 500 สูตร</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ทดสอบความคงตัว (Stability Test)</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ตอบคำถามเทคนิคจากลูกค้า OEM</span>
+                                </label>
+                                <label class="option checkbox has-input" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">อื่นๆ...</span>
+                                    <input type="text" class="other-input" placeholder="ระบุ..." onclick="event.stopPropagation()">
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Marketing Work -->
+                        <div class="work-category">
+                            <div class="work-category-title">📢 งานการตลาดและขาย (Marketing/Sales)</div>
+                            <div class="checkbox-grid">
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ตอบคำถามลูกค้า OEM ผ่าน LINE/Facebook/Email</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">สร้างคอนเทนต์โซเชียลมีเดีย (Facebook, TikTok, IG)</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">นำเสนอแพ็คเกจ OEM ให้ลูกค้าใหม่</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ติดตามความพึงพอใจลูกค้า</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">วิเคราะห์เทรนด์ตลาดอาหารเสริม</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">หา Segment ลูกค้าใหม่ (กลุ่มเป้าหมาย)</span>
+                                </label>
+                                <label class="option checkbox has-input" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">อื่นๆ...</span>
+                                    <input type="text" class="other-input" placeholder="ระบุ..." onclick="event.stopPropagation()">
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Procurement Work -->
+                        <div class="work-category">
+                            <div class="work-category-title">📦 งานจัดซื้อและคลังสินค้า</div>
+                            <div class="checkbox-grid">
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">สั่งซื้อวัตถุดิบ/สารสกัด</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">เปรียบเทียบราคาวัตถุดิบจาก Supplier</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ตรวจสอบคุณภาพวัตถุดิบที่ได้รับ</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">จัดการสต็อกวัตถุดิบในคลัง</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ติดตามการจัดส่งวัตถุดิบ</span>
+                                </label>
+                                <label class="option checkbox has-input" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">อื่นๆ...</span>
+                                    <input type="text" class="other-input" placeholder="ระบุ..." onclick="event.stopPropagation()">
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Production Work -->
+                        <div class="work-category">
+                            <div class="work-category-title">🏭 งานผลิตและควบคุมคุณภาพ</div>
+                            <div class="checkbox-grid">
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ควบคุมกระบวนการผลิตตามมาตรฐาน GMP/HACCP</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ตรวจสอบคุณภาพผลิตภัณฑ์ (QC/QA)</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">บันทึกข้อมูลการผลิตแต่ละ Batch</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ตรวจสอบเอกสาร Batch Record</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">จัดการปัญหาที่เกิดขึ้นในสายการผลิต</span>
+                                </label>
+                                <label class="option checkbox has-input" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">อื่นๆ...</span>
+                                    <input type="text" class="other-input" placeholder="ระบุ..." onclick="event.stopPropagation()">
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Accounting Work -->
+                        <div class="work-category">
+                            <div class="work-category-title">💰 งานบัญชีและการเงิน</div>
+                            <div class="checkbox-grid">
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">กรอกข้อมูลเข้าระบบ ERP (Express)</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">คีย์ใบเบิก/ใบวางบิล/PO</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">จัดการเอกสารทางการเงิน</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ทำรายงานการเงิน</span>
+                                </label>
+                                <label class="option checkbox has-input" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">อื่นๆ...</span>
+                                    <input type="text" class="other-input" placeholder="ระบุ..." onclick="event.stopPropagation()">
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Admin Work -->
+                        <div class="work-category">
+                            <div class="work-category-title">📋 งานเอกสารและธุรการ</div>
+                            <div class="checkbox-grid">
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">จดทะเบียน FDA สำหรับผลิตภัณฑ์ใหม่</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ออกแบบโลโก้และบรรจุภัณฑ์</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">จัดทำรายงานประจำวัน/สัปดาห์</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">สรุปการประชุม/บันทึกข้อตกลง</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ตอบคำถามผ่าน LINE กลุ่ม</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">จัดเก็บ/ค้นหาเอกสาร</span>
+                                </label>
+                                <label class="option checkbox has-input" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">อื่นๆ...</span>
+                                    <input type="text" class="other-input" placeholder="ระบุ..." onclick="event.stopPropagation()">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Problems & Challenges -->
+            <div class="step" data-step="4" style="display:none;">
+                <div class="section">
+                    <div class="section-header">
+                        <div class="section-letter">D</div>
+                        <div class="section-title">ปัญหาและความท้าทาย</div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">D1. ปัญหาที่พบบ่อยในการทำงาน (เลือกได้หลายข้อ)</label>
+
+                        <!-- Data Silo Problems -->
+                        <div class="work-category">
+                            <div class="work-category-title">🔗 ปัญหาการเชื่อมต่อข้อมูล (Data Silo)</div>
+                            <div class="checkbox-grid">
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ข้อมูล 2 โรงงานแยกกันใน Express ERP</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ข้อมูลกระจายอยู่หลายที่ (ERP, Excel, Google Drive)</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ต้องโทรถาม/ส่ง LINE หลายคนกว่าจะได้ข้อมูล</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ไม่มีข้อมูล Real-time สำหรับตัดสินใจ</span>
+                                </label>
+                                <label class="option checkbox has-input" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">อื่นๆ...</span>
+                                    <input type="text" class="other-input" placeholder="ระบุ..." onclick="event.stopPropagation()">
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- R&D Problems -->
+                        <div class="work-category">
+                            <div class="work-category-title">🧪 ปัญหาด้าน R&D และการจัดการสูตร</div>
+                            <div class="checkbox-grid">
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">มีสูตรมากกว่า 500 สูตรใน Excel หาข้อมูลยาก</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ลูกค้าถามสูตรแปลกใหม่ ต้องค้นคว้านาน</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ตรวจสอบความเข้ากันได้ของสาร (Compatibility) ใช้เวลานาน</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ตอบคำถามเทคนิคลูกค้าซ้ำๆ เรื่องเดิม</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ไม่มีระบบ Knowledge Base สำหรับ Monograph สารสกัด</span>
+                                </label>
+                                <label class="option checkbox has-input" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">อื่นๆ...</span>
+                                    <input type="text" class="other-input" placeholder="ระบุ..." onclick="event.stopPropagation()">
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Marketing Problems -->
+                        <div class="work-category">
+                            <div class="work-category-title">📢 ปัญหาด้านการตลาดและลูกค้าสัมพันธ์</div>
+                            <div class="checkbox-grid">
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ตอบคำถามลูกค้าไม่ทัน โดยเฉพาะคำถามซ้ำๆ เกี่ยวกับ OEM</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">สร้าง Content ลง TikTok/Facebook ใช้เวลานาน</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">หา Segment ลูกค้าใหม่ยาก</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ไม่มีระบบติดตามความพึงพอใจลูกค้า</span>
+                                </label>
+                                <label class="option checkbox has-input" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">อื่นๆ...</span>
+                                    <input type="text" class="other-input" placeholder="ระบุ..." onclick="event.stopPropagation()">
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Document Problems -->
+                        <div class="work-category">
+                            <div class="work-category-title">📄 ปัญหาเอกสารและการกรอกข้อมูล</div>
+                            <div class="checkbox-grid">
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ต้องกรอกข้อมูลซ้ำๆ ในหลายระบบ</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">เอกสาร Batch Record กรอกผิดพลาดบ่อย</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ติดตามเอกสารค้างยาก ไม่มีระบบเตือน</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">การจดทะเบียน FDA ใช้เวลานาน</span>
+                                </label>
+                                <label class="option checkbox has-input" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">อื่นๆ...</span>
+                                    <input type="text" class="other-input" placeholder="ระบุ..." onclick="event.stopPropagation()">
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Security Problems -->
+                        <div class="work-category">
+                            <div class="work-category-title">🔒 ปัญหาความปลอดภัยข้อมูล</div>
+                            <div class="checkbox-grid">
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">กังวลเรื่องข้อมูลรั่วไหลหากใช้ AI</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">Express ERP เป็นระบบปิด ยากต่อการเชื่อมต่อ</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ไม่แน่ใจว่า AI จะเก็บข้อมูลไปเทรนหรือไม่</span>
+                                </label>
+                                <label class="option checkbox has-input" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">อื่นๆ...</span>
+                                    <input type="text" class="other-input" placeholder="ระบุ..." onclick="event.stopPropagation()">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">D2. ปัญหาที่อยากให้ AI ช่วยมากที่สุด 3 อันดับแรก</label>
+                        <div class="static-inputs" id="aiHelpInputs">
+                            <div class="dynamic-input-row">
+                                <input type="text" id="aiHelp1" class="dotted-input" placeholder="อันดับ 1: .....................................................">
+                            </div>
+                            <div class="dynamic-input-row">
+                                <input type="text" id="aiHelp2" class="dotted-input" placeholder="อันดับ 2: .....................................................">
+                            </div>
+                            <div class="dynamic-input-row">
+                                <input type="text" id="aiHelp3" class="dotted-input" placeholder="อันดับ 3: .....................................................">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">D3. ฟีเจอร์ AI ที่สนใจ (เลือกได้หลายข้อ)</label>
+
+                        <!-- R&D Features -->
+                        <div class="work-category">
+                            <div class="work-category-title">🧪 AI ช่วยงาน R&D และพัฒนาสูตร</div>
+                            <div class="checkbox-grid">
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ถาม-ตอบข้อมูลเทคนิค (Monograph สารสกัด, Stability Test)</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ตรวจสอบความเข้ากันได้ของสาร (Compatibility Check)</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ค้นหาสูตรจาก 500+ สูตรด้วยการพิมพ์คีย์เวิร์ด</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">แนะนำสารสกัดทางเลือกเมื่อสารหลักหมด</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ช่วยตอบคำถามเทคนิคจากลูกค้า 24 ชม.</span>
+                                </label>
+                                <label class="option checkbox has-input" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">อื่นๆ...</span>
+                                    <input type="text" class="other-input" placeholder="ระบุ..." onclick="event.stopPropagation()">
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Marketing Features -->
+                        <div class="work-category">
+                            <div class="work-category-title">📢 AI ช่วยการตลาดและลูกค้าสัมพันธ์</div>
+                            <div class="checkbox-grid">
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">AI ตอบคำถาม OEM ผ่าน LINE/Facebook อัตโนมัติ</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">สร้าง Content โซเชียลมีเดีย (TikTok, IG, Facebook)</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">วิเคราะห์อารมณ์ลูกค้า (Sentiment Analysis) ในกลุ่ม LINE</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">แนะนำ Segment ลูกค้าใหม่ตามเทรนด์ตลาด</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ระบบ Affiliate AI (แชร์คอนเทนต์นับแต้มอัตโนมัติ)</span>
+                                </label>
+                                <label class="option checkbox has-input" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">อื่นๆ...</span>
+                                    <input type="text" class="other-input" placeholder="ระบุ..." onclick="event.stopPropagation()">
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Document Features -->
+                        <div class="work-category">
+                            <div class="work-category-title">📝 AI ช่วยงานเอกสาร</div>
+                            <div class="checkbox-grid">
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">สแกน/ถ่ายรูปเอกสาร แล้ว AI กรอกเข้า ERP อัตโนมัติ (OCR)</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ตรวจสอบเอกสารครบ/ไม่ครบ ก่อนส่ง</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">สรุปการประชุมยาวๆ เป็น To-do list</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">แจ้งเตือนเอกสารค้าง (7/15/30 วัน) ผ่าน LINE</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ช่วยเตรียมเอกสารจดทะเบียน FDA</span>
+                                </label>
+                                <label class="option checkbox has-input" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">อื่นๆ...</span>
+                                    <input type="text" class="other-input" placeholder="ระบุ..." onclick="event.stopPropagation()">
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- ERP Features -->
+                        <div class="work-category">
+                            <div class="work-category-title">📊 AI ช่วยดึงข้อมูลจาก ERP และรายงาน</div>
+                            <div class="checkbox-grid">
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ถามข้อมูลสต็อก/ราคา ผ่าน LINE ได้ทันที</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">ดึงรายงานยอดขายอัตโนมัติ</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">เปรียบเทียบราคาวัตถุดิบกับประวัติการซื้อ</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">Alert เมื่อราคาผิดปกติ</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">บันทึกข้อมูลหน้างานด้วยเสียง (Voice to Text)</span>
+                                </label>
+                                <label class="option checkbox has-input" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">อื่นๆ...</span>
+                                    <input type="text" class="other-input" placeholder="ระบุ..." onclick="event.stopPropagation()">
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Communication Features -->
+                        <div class="work-category">
+                            <div class="work-category-title">💬 AI ช่วยการสื่อสารภายในทีม</div>
+                            <div class="checkbox-grid">
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">AI เข้าไปใน LINE กลุ่ม ช่วยตอบคำถามพื้นฐาน</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">จัดลำดับความสำคัญข้อความ (ด่วน/ปกติ)</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">แยกแยะอารมณ์ลูกค้า (หงุดหงิด/พอใจ)</span>
+                                </label>
+                                <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">สรุปการสนทนายาวๆ ใน LINE</span>
+                                </label>
+                                <label class="option checkbox has-input" onclick="toggleCheckbox(this)">
+                                    <span class="checkmark"></span>
+                                    <span class="option-title">อื่นๆ...</span>
+                                    <input type="text" class="other-input" placeholder="ระบุ..." onclick="event.stopPropagation()">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 5: Expectations -->
+            <div class="step" data-step="5" style="display:none;">
+                <div class="section">
+                    <div class="section-header">
+                        <div class="section-letter">E</div>
+                        <div class="section-title">ความคาดหวังจากการอบรม</div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">E1. ความสำคัญของแต่ละด้าน (1=น้อยที่สุด, 5=มากที่สุด)</label>
+                        <div class="rating-grid">
+                            <div class="rating-row">
+                                <span class="rating-label">เข้าใจว่า AI คืออะไร ทำอะไรได้บ้าง</span>
+                                <div class="rating-buttons">
+                                    <button class="rating-btn" onclick="selectRating(this)">1</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">2</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">3</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">4</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">5</button>
+                                </div>
+                            </div>
+                            <div class="rating-row">
+                                <span class="rating-label">ใช้ AI เพิ่มความเร็วในการทำงาน</span>
+                                <div class="rating-buttons">
+                                    <button class="rating-btn" onclick="selectRating(this)">1</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">2</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">3</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">4</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">5</button>
+                                </div>
+                            </div>
+                            <div class="rating-row">
+                                <span class="rating-label">ใช้ AI วิเคราะห์ข้อมูลที่กระจัดกระจาย</span>
+                                <div class="rating-buttons">
+                                    <button class="rating-btn" onclick="selectRating(this)">1</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">2</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">3</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">4</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">5</button>
+                                </div>
+                            </div>
+                            <div class="rating-row">
+                                <span class="rating-label">เรียนรู้การสื่อสารกับ AI (Prompt Engineering)</span>
+                                <div class="rating-buttons">
+                                    <button class="rating-btn" onclick="selectRating(this)">1</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">2</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">3</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">4</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">5</button>
+                                </div>
+                            </div>
+                            <div class="rating-row">
+                                <span class="rating-label">ใช้ AI สำหรับงาน R&D (พัฒนาสูตร, ตรวจสอบสาร)</span>
+                                <div class="rating-buttons">
+                                    <button class="rating-btn" onclick="selectRating(this)">1</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">2</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">3</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">4</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">5</button>
+                                </div>
+                            </div>
+                            <div class="rating-row">
+                                <span class="rating-label">ใช้ AI สำหรับงานการตลาด/OEM</span>
+                                <div class="rating-buttons">
+                                    <button class="rating-btn" onclick="selectRating(this)">1</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">2</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">3</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">4</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">5</button>
+                                </div>
+                            </div>
+                            <div class="rating-row">
+                                <span class="rating-label">ความปลอดภัยของข้อมูลเมื่อใช้ AI</span>
+                                <div class="rating-buttons">
+                                    <button class="rating-btn" onclick="selectRating(this)">1</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">2</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">3</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">4</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">5</button>
+                                </div>
+                            </div>
+                            <div class="rating-row">
+                                <span class="rating-label">ลดงาน Manual เพื่อทำงานที่ใช้ความคิดมากขึ้น</span>
+                                <div class="rating-buttons">
+                                    <button class="rating-btn" onclick="selectRating(this)">1</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">2</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">3</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">4</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">5</button>
+                                </div>
+                            </div>
+                            <div class="rating-row">
+                                <span class="rating-label">ใช้ AI ช่วยทำรายงาน/สรุปข้อมูล</span>
+                                <div class="rating-buttons">
+                                    <button class="rating-btn" onclick="selectRating(this)">1</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">2</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">3</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">4</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">5</button>
+                                </div>
+                            </div>
+                            <div class="rating-row">
+                                <span class="rating-label">ใช้ AI ช่วยดึงข้อมูลจาก ERP</span>
+                                <div class="rating-buttons">
+                                    <button class="rating-btn" onclick="selectRating(this)">1</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">2</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">3</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">4</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">5</button>
+                                </div>
+                            </div>
+                            <div class="rating-row" id="expectationOtherRow">
+                                <div class="rating-label" style="display:flex; align-items:center; gap:8px;">
+                                    <span>อื่นๆ</span>
+                                    <input type="text" id="expectationOtherText" class="dotted-input" placeholder="โปรดระบุ..." style="flex:1; min-width:100px;">
+                                </div>
+                                <div class="rating-buttons">
+                                    <button class="rating-btn" onclick="selectRating(this)">1</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">2</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">3</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">4</button>
+                                    <button class="rating-btn" onclick="selectRating(this)">5</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">E2. หัวข้อที่อยากเรียนรู้ (เลือกได้หลายข้อ)</label>
+                        <div class="checkbox-grid">
+                            <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                <span class="checkmark"></span>
+                                <span class="option-title">AI พื้นฐาน: ChatGPT, Gemini, Claude</span>
+                            </label>
+                            <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                <span class="checkmark"></span>
+                                <span class="option-title">Prompt Engineering: วิธีสั่ง AI ให้ได้ผลลัพธ์ที่ต้องการ</span>
+                            </label>
+                            <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                <span class="checkmark"></span>
+                                <span class="option-title">AI สำหรับงาน R&D (ค้นหาสูตร, ตรวจสอบ Compatibility)</span>
+                            </label>
+                            <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                <span class="checkmark"></span>
+                                <span class="option-title">AI สำหรับงานการตลาด (สร้าง Content, หา Segment)</span>
+                            </label>
+                            <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                <span class="checkmark"></span>
+                                <span class="option-title">AI สำหรับงานเอกสาร (สรุป, แปลง, ตรวจสอบ)</span>
+                            </label>
+                            <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                <span class="checkmark"></span>
+                                <span class="option-title">AI สำหรับงานบัญชี/การเงิน</span>
+                            </label>
+                            <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                <span class="checkmark"></span>
+                                <span class="option-title">AI สำหรับจัดซื้อ (เปรียบเทียบราคา, ประเมิน Supplier)</span>
+                            </label>
+                            <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                <span class="checkmark"></span>
+                                <span class="option-title">AI สำหรับ QC/QA (ตรวจสอบคุณภาพ)</span>
+                            </label>
+                            <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                <span class="checkmark"></span>
+                                <span class="option-title">AI สำหรับการจดทะเบียน FDA</span>
+                            </label>
+                            <label class="option checkbox" onclick="toggleCheckbox(this)">
+                                <span class="checkmark"></span>
+                                <span class="option-title">ความปลอดภัยข้อมูลเมื่อใช้ AI</span>
+                            </label>
+                            <label class="option checkbox has-input" onclick="toggleCheckbox(this)">
+                                <span class="checkmark"></span>
+                                <span class="option-title">อื่นๆ...</span>
+                                <input type="text" class="other-input" placeholder="ระบุ..." onclick="event.stopPropagation()">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 6: Suggestions -->
+            <div class="step" data-step="6" style="display:none;">
+                <div class="section">
+                    <div class="section-header">
+                        <div class="section-letter">F</div>
+                        <div class="section-title">ข้อเสนอแนะเพิ่มเติม</div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">F1. ไอเดียการใช้ AI ที่อยากให้พัฒนาเป็นพิเศษ</label>
+                        <textarea id="aiIdea" placeholder="บอกเล่าไอเดียที่อยากให้พัฒนา..."></textarea>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">F2. ข้อกังวลหรือคำถามเกี่ยวกับการใช้ AI</label>
+                        <textarea id="concerns" placeholder="ระบุข้อกังวลหรือคำถาม..."></textarea>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">F3. ข้อความถึงวิทยากร / สิ่งที่อยากให้เน้นเป็นพิเศษ</label>
+                        <textarea id="speakerNotes" placeholder="ระบุวิทยากรหรือหลักสูตรที่สนใจ..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Page -->
+            <div class="step" data-step="7" style="display:none;">
+                <div class="section success-page">
+                    <div class="success-icon">✓</div>
+                    <h2>ขอบคุณที่สละเวลาตอบแบบสอบถามค่ะ</h2>
+                    <p>เราจะนำไปใช้ในการพัฒนาเพื่อสนับสนุนการทำงานของทุกท่านต่อไปค่ะ</p>
+                    <button class="nav-btn next" onclick="resetSurvey()">เริ่มใหม่</button>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="nav-buttons" id="navButtons">
+                <button class="nav-btn prev" onclick="prevStep()" id="prevBtn" style="visibility:hidden;">← ย้อนกลับ</button>
+                <button class="nav-btn next" onclick="nextStep()" id="nextBtn">ถัดไป →</button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <strong>Innovate AI Co., Ltd.</strong> x <strong>BioSierra Laboratory</strong> | Connected to Google Sheets
+        </div>
+    </div>
+
+    <script>
+        // ===== GOOGLE SHEETS CONFIG =====
+        // TODO: Replace with actual Google Script URL
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwc4iqRrRH8lyaCp-NOEGpLhH4wLJOivGw16Cr527GnD_DAVIvqZY7SSPthJj14muQ0/exec';
+        
+        let currentStep = 1;
+        const totalSteps = 6;
+
+        // ===== STEP NAVIGATION =====
+        function updateStepIndicator() {
+            const indicator = document.getElementById('stepIndicator');
+            indicator.innerHTML = '';
+            for (let i = 1; i <= totalSteps; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'step-dot';
+                if (i < currentStep) dot.classList.add('completed');
+                if (i === currentStep) dot.classList.add('active');
+                indicator.appendChild(dot);
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentStep - 1) / totalSteps) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function showStep(step) {
+            document.querySelectorAll('.step').forEach(s => s.style.display = 'none');
+            const stepEl = document.querySelector(`.step[data-step="${step}"]`);
+            if (stepEl) stepEl.style.display = 'block';
+            document.getElementById('prevBtn').style.visibility = step === 1 ? 'hidden' : 'visible';
+            
+            if (step === totalSteps) {
+                document.getElementById('nextBtn').textContent = 'ส่ง ✓';
+            } else if (step === totalSteps + 1) {
+                document.getElementById('navButtons').style.display = 'none';
+            } else {
+                document.getElementById('nextBtn').textContent = 'ถัดไป →';
+            }
+        }
+
+        function nextStep() {
+            if (currentStep === totalSteps) {
+                submitSurvey();
+            } else if (currentStep < totalSteps) {
+                currentStep++;
+                showStep(currentStep);
+                updateStepIndicator();
+                updateProgress();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                showStep(currentStep);
+                updateStepIndicator();
+                updateProgress();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // ===== OPTION SELECTION =====
+        function selectOption(element, name) {
+            document.querySelectorAll(`[name="${name}"]`).forEach(input => {
+                input.closest('.option').classList.remove('selected');
+            });
+            element.classList.add('selected');
+            element.querySelector('input[type="radio"]').checked = true;
+            
+            // Handle department "other" input focus
+            if (name === 'department') {
+                const deptValue = element.querySelector('input[type="radio"]').value;
+                if (deptValue === 'other') {
+                    setTimeout(() => {
+                        const otherInput = document.getElementById('deptOtherInput');
+                        if (otherInput) otherInput.focus();
+                    }, 100);
+                }
+            }
+        }
+
+        function selectLevel(element, level) {
+            document.querySelectorAll('.level-option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        function toggleTool(element) {
+            element.classList.toggle('selected');
+        }
+
+        function toggleOtherTool(element, category) {
+            element.classList.toggle('selected');
+            const input = document.getElementById(category + '-other');
+            if (element.classList.contains('selected')) {
+                input.classList.add('show');
+                input.focus();
+            } else {
+                input.classList.remove('show');
+                input.value = '';
+            }
+        }
+
+        function selectFreq(element) {
+            document.querySelectorAll('.freq-option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        function toggleCheckbox(element) {
+            element.classList.toggle('selected');
+        }
+
+        function selectRating(btn) {
+            const row = btn.closest('.rating-row');
+            row.querySelectorAll('.rating-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+        }
+
+        // ===== DYNAMIC INPUTS =====
+        function addInput(containerId, maxInputs) {
+            const container = document.getElementById(containerId);
+            const inputs = container.querySelectorAll('.dynamic-input-row');
+            if (inputs.length < maxInputs) {
+                const labels = ['อันดับ 1', 'อันดับ 2', 'อันดับ 3'];
+                const newRow = document.createElement('div');
+                newRow.className = 'dynamic-input-row';
+                newRow.innerHTML = `
+                    <input type="text" class="dotted-input" placeholder="${labels[inputs.length]}: .....................................................">
+                    <button class="remove-btn" onclick="removeInput(this)">×</button>
+                `;
+                container.appendChild(newRow);
+            }
+        }
+
+        function removeInput(btn) {
+            btn.closest('.dynamic-input-row').remove();
+        }
+
+        // ===== RESET SURVEY =====
+        function resetSurvey() {
+            currentStep = 1;
+            
+            document.getElementById('navButtons').style.display = 'flex';
+            document.querySelectorAll('input').forEach(input => {
+                if (input.type === 'text') input.value = '';
+                if (input.type === 'radio' || input.type === 'checkbox') input.checked = false;
+            });
+            document.querySelectorAll('textarea').forEach(ta => ta.value = '');
+            document.querySelectorAll('.selected').forEach(el => el.classList.remove('selected'));
+            document.querySelectorAll('.other-tool-input').forEach(input => {
+                input.classList.remove('show');
+                input.value = '';
+            });
+            
+            // Reset dynamic inputs
+            const aiHelpContainer = document.getElementById('aiHelpInputs');
+            aiHelpContainer.innerHTML = `
+                <div class="dynamic-input-row">
+                    <input type="text" class="dotted-input" placeholder="อันดับ 1: .....................................................">
+                    <button class="add-btn" onclick="addInput('aiHelpInputs', 3)">+</button>
+                </div>
+            `;
+            
+            showStep(1);
+            updateStepIndicator();
+            updateProgress();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ===== COLLECT FORM DATA =====
+        /*
+         * Data Schema - fields collected from survey:
+         * - name: string (A1)
+         * - position: string (A2)
+         * - department: string (A3 radio value)
+         * - departmentOther: string (A3 other input if department='other')
+         * - oemProject: string (A4)
+         * - experienceLevel: number 0-5 (B1)
+         * - toolsUsed: array of strings (B2)
+         * - usageFrequency: string (B3)
+         * - dailyWork: object with arrays for each category (C1)
+         * - problems: object with arrays for each category (D1)
+         * - aiHelpTop3: array of strings (D2)
+         * - interestedFeatures: object with arrays for each category (D3)
+         * - expectationsScore: object with keys and scores 1-5 (E1)
+         * - interestedTopics: array of strings (E2)
+         * - aiIdea: string (F1)
+         * - concerns: string (F2)
+         * - speakerNotes: string (F3)
+         */
+        function collectFormData() {
+            // Section A
+            const name = document.getElementById('name').value.trim();
+            const position = document.getElementById('position').value.trim();
+            const deptRadio = document.querySelector('input[name="department"]:checked');
+            const department = deptRadio ? deptRadio.value : '';
+            const departmentOther = department === 'other' ? 
+                document.getElementById('deptOtherInput').value.trim() : '';
+            const oemProject = document.getElementById('oemProject').value.trim();
+            
+            // Section B - Level
+            const levelEl = document.querySelector('.level-option.selected');
+            const experienceLevel = levelEl ? 
+                parseInt(levelEl.querySelector('.level-badge').textContent.replace('L', '')) : 0;
+            
+            // Section B - Tools
+            const toolsUsed = [];
+            document.querySelectorAll('.step[data-step="2"] .tool-option.selected').forEach(el => {
+                const toolName = el.textContent.trim();
+                if (toolName !== 'อื่นๆ...') {
+                    toolsUsed.push(toolName);
+                }
+            });
+            const toolsOther = document.getElementById('tools-other');
+            if (toolsOther && toolsOther.value.trim()) {
+                toolsUsed.push(toolsOther.value.trim());
+            }
+            
+            // Section B - Frequency
+            const freqEl = document.querySelector('.freq-option.selected');
+            let usageFrequency = '';
+            if (freqEl) {
+                const freqText = freqEl.textContent.trim();
+                if (freqText === 'ทุกวัน') usageFrequency = 'daily';
+                else if (freqText.includes('หลายครั้ง')) usageFrequency = 'multiple-weekly';
+                else if (freqText === 'สัปดาห์ละครั้ง') usageFrequency = 'weekly';
+                else if (freqText.includes('นานๆ')) usageFrequency = 'monthly';
+                else if (freqText.includes('ไม่เคย')) usageFrequency = 'never';
+            }
+            
+            // Section C - Daily Work (collect from all categories)
+            const dailyWork = {
+                rnd: [],
+                marketing: [],
+                procurement: [],
+                production: [],
+                accounting: [],
+                admin: []
+            };
+            
+            // Helper function to collect checkbox selections
+            function collectCheckboxes(container, categoryKey) {
+                const items = [];
+                container.querySelectorAll('.option.checkbox.selected').forEach(el => {
+                    const title = el.querySelector('.option-title').textContent.trim();
+                    if (title !== 'อื่นๆ...') {
+                        items.push(title);
+                    } else {
+                        const otherInput = el.querySelector('.other-input');
+                        if (otherInput && otherInput.value.trim()) {
+                            items.push(otherInput.value.trim());
+                        }
+                    }
+                });
+                return items;
+            }
+            
+            const step3 = document.querySelector('.step[data-step="3"]');
+            const workCategories = step3.querySelectorAll('.work-category');
+            const workKeys = ['rnd', 'marketing', 'procurement', 'production', 'accounting', 'admin'];
+            workCategories.forEach((cat, idx) => {
+                if (idx < workKeys.length) {
+                    dailyWork[workKeys[idx]] = collectCheckboxes(cat, workKeys[idx]);
+                }
+            });
+            
+            // Section D - Problems
+            const problems = {
+                dataSilo: [],
+                rnd: [],
+                marketing: [],
+                document: [],
+                security: []
+            };
+            
+            const step4 = document.querySelector('.step[data-step="4"]');
+            const problemCategories = step4.querySelectorAll('.question')[0].querySelectorAll('.work-category');
+            const problemKeys = ['dataSilo', 'rnd', 'marketing', 'document', 'security'];
+            problemCategories.forEach((cat, idx) => {
+                if (idx < problemKeys.length) {
+                    problems[problemKeys[idx]] = collectCheckboxes(cat, problemKeys[idx]);
+                }
+            });
+            
+            // Section D - AI Help Top 3
+            const aiHelpTop3 = [
+                document.getElementById('aiHelp1').value.trim(),
+                document.getElementById('aiHelp2').value.trim(),
+                document.getElementById('aiHelp3').value.trim()
+            ];
+            
+            // Section D - Interested Features
+            const interestedFeatures = {
+                rnd: [],
+                marketing: [],
+                document: [],
+                erp: [],
+                communication: []
+            };
+            
+            const featureCategories = step4.querySelectorAll('.question')[2].querySelectorAll('.work-category');
+            const featureKeys = ['rnd', 'marketing', 'document', 'erp', 'communication'];
+            featureCategories.forEach((cat, idx) => {
+                if (idx < featureKeys.length) {
+                    interestedFeatures[featureKeys[idx]] = collectCheckboxes(cat, featureKeys[idx]);
+                }
+            });
+            
+            // Section E - Expectations Score
+            const expectationsScore = {
+                understandAI: 0,
+                speedUpWork: 0,
+                analyzeData: 0,
+                promptEngineering: 0,
+                aiForRnd: 0,
+                aiForMarketing: 0,
+                dataSecurity: 0,
+                reduceManual: 0,
+                aiForReport: 0,
+                aiForErp: 0,
+                otherTopic: '',
+                otherScore: 0
+            };
+            const expectKeys = ['understandAI', 'speedUpWork', 'analyzeData', 'promptEngineering', 'aiForRnd', 'aiForMarketing', 'dataSecurity', 'reduceManual', 'aiForReport', 'aiForErp'];
+            document.querySelectorAll('.step[data-step="5"] .rating-grid .rating-row').forEach((row, index) => {
+                if (index < expectKeys.length) {
+                    const selected = row.querySelector('.rating-btn.selected');
+                    if (selected) {
+                        expectationsScore[expectKeys[index]] = parseInt(selected.textContent);
+                    }
+                }
+            });
+            // E1 Other row
+            expectationsScore.otherTopic = document.getElementById('expectationOtherText').value.trim();
+            const otherRow = document.getElementById('expectationOtherRow');
+            const otherSelected = otherRow.querySelector('.rating-btn.selected');
+            if (otherSelected) {
+                expectationsScore.otherScore = parseInt(otherSelected.textContent);
+            }
+            
+            // Section E - Interested Topics
+            const interestedTopics = [];
+            document.querySelectorAll('.step[data-step="5"] .checkbox-grid .option.checkbox.selected').forEach(el => {
+                const title = el.querySelector('.option-title').textContent.trim();
+                if (title !== 'อื่นๆ...') {
+                    interestedTopics.push(title);
+                } else {
+                    const otherInput = el.querySelector('.other-input');
+                    if (otherInput && otherInput.value.trim()) {
+                        interestedTopics.push(otherInput.value.trim());
+                    }
+                }
+            });
+            
+            // Section F
+            const aiIdea = document.getElementById('aiIdea').value.trim();
+            const concerns = document.getElementById('concerns').value.trim();
+            const speakerNotes = document.getElementById('speakerNotes').value.trim();
+            
+            return {
+                name,
+                position,
+                department,
+                departmentOther,
+                oemProject,
+                experienceLevel,
+                toolsUsed,
+                usageFrequency,
+                dailyWork,
+                problems,
+                aiHelpTop3,
+                interestedFeatures,
+                expectationsScore,
+                interestedTopics,
+                aiIdea,
+                concerns,
+                speakerNotes,
+                timestamp: new Date().toISOString()
+            };
+        }
+
+        // ===== SUBMIT TO GOOGLE SHEETS =====
+        async function submitSurvey() {
+            const data = collectFormData();
+            
+            // Validate name
+            if (!data.name) {
+                alert('กรุณากรอกชื่อ-นามสกุล');
+                return;
+            }
+            
+            // Validate department other
+            if (data.department === 'other' && !data.departmentOther) {
+                alert('กรุณาระบุแผนก');
+                document.getElementById('deptOtherInput').focus();
+                return;
+            }
+            
+            // Show loading
+            document.getElementById('nextBtn').disabled = true;
+            document.getElementById('nextBtn').textContent = 'กำลังส่ง...';
+            
+            try {
+                // Only submit if URL is configured
+                if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL !== 'YOUR_GOOGLE_SCRIPT_URL_HERE') {
+                    await fetch(GOOGLE_SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    });
+                }
+                
+                console.log('Data collected:', data);
+                
+                // Show success
+                currentStep = totalSteps + 1;
+                showStep(currentStep);
+                updateProgress();
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
+                document.getElementById('nextBtn').disabled = false;
+                document.getElementById('nextBtn').textContent = 'ส่ง ✓';
+            }
+        }
+
+        // ===== INITIALIZE =====
+        showStep(1);
+        updateStepIndicator();
+        updateProgress();
+    </script>
+</body>
+</html>
